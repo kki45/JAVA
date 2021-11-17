@@ -258,7 +258,11 @@ toString을 사용하면 object메소드 생략가능하다.
 2. class(실행파일...byteCode)파일이 메모리(JVM)에 로더되는 과정에서 미리 메모리에 올라간다.
 3. static으로 지정한 변수는 Local레벨에서 사용할 수 없다.
 4. static으로 지정된 변수는 생성된 객체들에서 공유된다.
-5. static키워드는 final키워드와 거의 함께 많이 쓰인다.
+5. static키워드는 상수를 지정할때 쓰이는 final키워드와 거의 함께 많이 쓰인다.
+6. final은 내가마지막이야라는 의미를 가지는 키워드이다.
+7. final + 변수 : 상수값
+8. final + 메소드 : 오버라이딩 금지
+9. final + 클래스 : 상속금지
 ```java
 static String name = "길똥이";//static V
 	static int age = 19;//static V
@@ -288,9 +292,43 @@ public class StaticExamTest1 {
 2. static영역에서는 non-static한 멤버를 사용할수 없기때문에 객체를 생성해서 사용해야한다.
 
 
+### Singleton Pattern
+1. 하나의 클래스로부터 오직 하나의 객체만을 생성하는 패턴이다.
+2. private static으로 해당 클래스에서 객체를 일단 하나는 생성한다.
+3. 다른곳에서 객체생성을 못하도록 생성자앞에 private를 붙인다.
+4. 하나 만들어놓은 객체를 여기저기서 가져다 쓸 수있도록 public으로 리턴하는 기능을 만든다.
+```java
+class Factory{
+	private static Factory factory = new Factory(); //1
+	private Factory(){ //2
+		System.out.println("Factory Only One Creating....");
+	}
+	public static Factory getInstance() {//3
+		return factory;
+	}
+}
+public class StaticExamTest5 {
+	public static void main(String[] args) {
+		System.out.println("Singleton Pattern....");
+		
+		//Factory factory1 = new Factory(); private으로 막혀있어 객체생성안된다.
+		Factory factory1 = Factory.getInstance();
+		Factory factory2 = Factory.getInstance();
+		Factory factory3 = Factory.getInstance();
+		
+		System.out.println(factory1);
+		System.out.println(factory2);
+		System.out.println(factory3);
+		
+	}
 
-
-
+}
+```
+1. 만들어진것을 받아서 사용해야함 - getInstance()호출
+2. 메모리에 올려야하는데 객체생성을 못함.
+3. static으로 미리 메모리에 올려둬서 사용해야함.
+4. getInstance()를 여러번 호출해서 Factory객체를 여러번 리턴받았다.
+5. 이때 factory1,factory2,factory3가 서로 다른 객체가 아닌지 어떻게 확인?...주소값으로 확인한다.		
 
 
 
