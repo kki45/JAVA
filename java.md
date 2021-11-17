@@ -252,7 +252,28 @@ toString을 사용하면 object메소드 생략가능하다.
 1. 객체를 생성할때 부모타입으로 다양한 자식을 만들어야한다.
 2. 상속이 전제가 된다.
 3. 타입이 다른 이기종간의 서브클래스를 단일하게 핸들링하려면 한단계위인 슈퍼클래스에서 관리해야한다.
-
+4. 부모타입의 클래스로 자식을 생성하는 것
+5. 1) Virtual Method Invocation(가상함수호출) : 부모타입으로 자식객체를 생성하고 Overriding된 메소드를 부모타입의 변수로 호출하면 발생하는 원리이다.
+	- Complie Type Method : 부모의 메소드가 호출됨.
+	- Runtime Type Method : 자식의 메소드가 호출됨.
+   2) object casting(형변환)
+   
+```java
+  3 step......
+ * public void addEmployee(Manager m){// }
+ * public void addEmployee(Engineer eg){// }
+ * public void addEmployee(Secretary sc){// }
+ 
+ * 4 step...3단계와 같은 역할을 하지만 단 1번만 정의하면 된다.
+ * public void add(Employee e){
+ *   if(e instanceof Manager){ 
+ *  }
+ *  if(e instanceof Engineer){
+ *  }
+ *  if(e instanceof Secretary){
+ *  }
+ ```
+ 
 ### Static
 1. static으로 지정된 멤버는 객체 생성할 필요없이 바로 접근해서 사용가능하다.
 2. class(실행파일...byteCode)파일이 메모리(JVM)에 로더되는 과정에서 미리 메모리에 올라간다.
@@ -329,9 +350,76 @@ public class StaticExamTest5 {
 3. static으로 미리 메모리에 올려둬서 사용해야함.
 4. getInstance()를 여러번 호출해서 Factory객체를 여러번 리턴받았다.
 5. 이때 factory1,factory2,factory3가 서로 다른 객체가 아닌지 어떻게 확인?...주소값으로 확인한다.		
+### Interface
+1. 인터페이스는 구현부가 없는 기능의 Template(추상적인기능)들 만으로 구성된다.
+2. 구현부가 없는 메소드가 추상메소드이다.
+3. 인터페이스의 구성요소는 Template기능(추상메소드), public static final 상수이다.
+4. 인터페이스안에서는 무조건 변수앞에 public static final을 붙여야한다.
+5. 구현부가 없는 메소드 선언일때는 abstract키워드를 붙여야한다.
 
+```java
+public interface Flyer {
+	public static final int SPEED = 100; 
+	
+	public abstract void fly();
+	 public abstract void land();
+	 public abstract void take_off();
+}
+```
+```java
+public class Bird implements Flyer{
 
+	//구현부가 없는데 구현부를 만듬 :: 오버라이딩임.
+	@Override
+	public void fly() {
+		System.out.println("Bird fly...");
+	}
 
+	@Override
+	public void land() {
+		System.out.println("Bird land...");
+	}
+
+	@Override
+	public void take_off() {
+		System.out.println("Bird take_off...");		
+	}
+	
+	//Bird만의 기능
+	public String layEggs() {
+		return "알을 낳다";
+	}
+	public String buildNest() {
+		return "둥지를 짓다";
+	}
+
+}
+```
+인터페이스를 상속받는 클래스는 반드시 인터페이스의 추상메소드를 구현해야한다.
+```java
+public class FlyerTest1 {
+
+	public static void main(String[] args) {
+		//완벽한 미완성이기때문에 객체생성을 할 수 없다.
+		//Flyer f1 = new Flyer();
+	
+		Flyer bird  = new Bird();
+		Flyer airplane = new AirPlane();
+		Flyer superman = new SuperMan();
+		
+		Flyer[] flyers = {
+				bird,airplane,superman
+		};
+		
+		for(Flyer f : flyers) {
+			if(f instanceof Bird) {
+				System.out.println(((Bird) f).layEggs());
+				f.fly();
+				f.land();
+				System.out.println("----------------------");
+			}
+```
+인터페이스는 객체생성의 대상이 될수 없지만 type으로서는 존재한다.
 
 
 
