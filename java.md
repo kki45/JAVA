@@ -31,6 +31,9 @@
 
 필드변수와 지역변수(로컬변수, 멤버변수)의 이름이 같을 때 구분하기 위해서 필드변수앞에 this를 붙여줌으로써 구분한다. 
 
+명시적생성자에서 super키워드는 상위클래스를 가르키는 키워드이다.
+부모클래스에서는 super();를 defalut로 한다.
+
 ### Has A Realtion
 다른클래스의 기능을 받아 사용하는 것이다.
 1. 필드레벨에 추가하고자하는 클래스를 선언.
@@ -225,6 +228,68 @@ james가 노트북을 구매, james가 구매한 노트북정보를 출력
 3. 메소드 선언부는 모두 일치한다.(이름, 인자값, 리턴타입)
 4. 메소드 구현부는 달라야한다.
 5. 서로 다른 상속관계의 클래스에서 발생한다.
+
+### Inheritance
+```java
+@Override
+	public String getDetails() {//반환메소드
+		return super.getDetails()+"subject :"+subject;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString()+"subject :"+subject;
+	}
+```
+```java
+~Test
+System.out.println(t.getDetails());
+System.out.println(t);
+```
+toString을 사용하면 object메소드 생략가능하다.
+
+### Polymorphism
+1. 객체를 생성할때 부모타입으로 다양한 자식을 만들어야한다.
+2. 상속이 전제가 된다.
+3. 타입이 다른 이기종간의 서브클래스를 단일하게 핸들링하려면 한단계위인 슈퍼클래스에서 관리해야한다.
+
+### Static
+1. static으로 지정된 멤버는 객체 생성할 필요없이 바로 접근해서 사용가능하다.
+2. class(실행파일...byteCode)파일이 메모리(JVM)에 로더되는 과정에서 미리 메모리에 올라간다.
+3. static으로 지정한 변수는 Local레벨에서 사용할 수 없다.
+4. static으로 지정된 변수는 생성된 객체들에서 공유된다.
+5. static키워드는 final키워드와 거의 함께 많이 쓰인다.
+```java
+static String name = "길똥이";//static V
+	static int age = 19;//static V
+	int count = 1;//field
+
+	public static void getMember() {
+		System.out.println("우/유/빛/깔/"+name);
+	}
+	
+	//non-static
+	public void getMember2() {
+		//static String address = "한남동";
+		System.out.println("우/유/빛/깔/"+name);
+	}
+
+
+public class StaticExamTest1 {
+
+	public static void main(String[] args) {
+		Member.getMember();//static
+		
+		Member m = new Member();//non-static
+		m.getMember2();
+	}
+```
+1. static으로 지정한 메소드는 객체 생성할 필요없이 클래스이름.메소드로 바로사용가능하다.
+2. static영역에서는 non-static한 멤버를 사용할수 없기때문에 객체를 생성해서 사용해야한다.
+
+
+
+
 
 
 
